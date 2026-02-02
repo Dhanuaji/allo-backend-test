@@ -6,12 +6,14 @@ public class BaseResponseDto<T> {
     private String code;
     private String message;
     private Instant timestamp;
+    private String resourceType;
     private T data;
 
-    public BaseResponseDto(String code, String message, T data) {
+    public BaseResponseDto(String code, String message, String resourceType, T data) {
         this.code = code;
         this.message = message;
         this.timestamp = Instant.now();
+        this.resourceType = resourceType;
         this.data = data;
     }
 
@@ -37,6 +39,14 @@ public class BaseResponseDto<T> {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
     }
 
     public T getData() {

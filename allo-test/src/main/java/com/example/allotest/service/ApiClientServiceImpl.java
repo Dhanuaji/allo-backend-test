@@ -1,6 +1,6 @@
 package com.example.allotest.service;
 
-import com.example.allotest.exceptions.NoPathAvailableException;
+import com.example.allotest.exceptions.CustomGlobalException;
 import com.example.allotest.strategy.IDataFetcher;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,11 @@ public class ApiClientServiceImpl implements IApiClientService {
 
     @Override
     public Object[] fetchData(String resourceType) {
-        IDataFetcher strategy = strategies.get(resourceType);
-        if (strategy == null) {
-            throw new NoPathAvailableException("unknown path: " + resourceType);
+        try {
+            IDataFetcher strategy = strategies.get(resourceType);
+            return strategy.fetchData();
+        } catch (Exception e) {
+            throw new CustomGlobalException("error occured: " + e.getMessage(), resourceType);
         }
-        return strategy.fetchData();
     }
 }

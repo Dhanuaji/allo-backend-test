@@ -1,9 +1,9 @@
 package com.example.allotest.exceptions;
 
-public class NoPathAvailableException extends RuntimeException {
+public class CustomGlobalException extends RuntimeException {
     private final String resourceType;
 
-    public NoPathAvailableException(String message, String resourceType) {
+    public CustomGlobalException(String message, String resourceType) {
         super(message);
         this.resourceType = resourceType;
     }
