@@ -5,3 +5,6 @@ spring:
 frankfurter:
   api:
     base-url: https://api.frankfurter.app
+
+github:
+  username: Dhanuaji
