@@ -3,7 +3,7 @@ package com.example.allotest.controller;
 import com.example.allotest.constants.ApiResponseConstants;
 import com.example.allotest.dtos.BaseResponseDto;
 import com.example.allotest.exceptions.NoPathAvailableException;
-import com.example.allotest.store.DataStore;
+import com.example.allotest.service.IApiClientService;
 import com.example.allotest.strategy.IDataFetcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,13 @@ import java.util.Map;
 
 @RestController
 public class ApiClientController {
-    private final DataStore store;
     private final Map<String, IDataFetcher> strategies;
+    private final IApiClientService apiClientService;
 
-    public ApiClientController(DataStore store,
-                               Map<String, IDataFetcher> strategies) {
-        this.store = store;
+    public ApiClientController(Map<String, IDataFetcher> strategies,
+                               IApiClientService apiClientService) {
         this.strategies = strategies;
+        this.apiClientService = apiClientService;
     }
 
     @GetMapping("/api/finance/data/{resourceType}")
@@ -30,7 +30,7 @@ public class ApiClientController {
             throw new NoPathAvailableException("unknown path: " + resourceType, resourceType);
         }
 
-        Object[] data = store.getFromStore(resourceType);
+        Object[] data = apiClientService.fetchData(resourceType);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new BaseResponseDto<>(
